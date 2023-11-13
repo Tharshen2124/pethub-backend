@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('category_news', function (Blueprint $table) {
+            $table->foreignId('category_id');
+            $table->foreignId('news_id');
+        });
     }
 
     /**

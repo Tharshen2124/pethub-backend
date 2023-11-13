@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\V1;
 
-use App\Models\Pet;
-use App\Http\Requests\StorePetRequest;
-use App\Http\Requests\UpdatePetRequest;
+use App\Models\News;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreNewsRequest;
+use App\Http\Requests\UpdateNewsRequest;
 
-class PetController extends Controller
+class NewsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class PetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePetRequest $request)
+    public function store(StoreNewsRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class PetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pet $pet)
+    public function show(News $news)
     {
         //
     }
@@ -43,7 +44,7 @@ class PetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pet $pet)
+    public function edit(News $news)
     {
         //
     }
@@ -51,7 +52,7 @@ class PetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePetRequest $request, Pet $pet)
+    public function update(UpdateNewsRequest $request, News $news)
     {
         //
     }
@@ -59,7 +60,7 @@ class PetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pet $pet)
+    public function destroy(News $news)
     {
         //
     }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\News;
-use App\Http\Requests\StoreNewsRequest;
-use App\Http\Requests\UpdateNewsRequest;
+use App\Models\Certificate;
+use App\Http\Requests\StoreCertificateRequest;
+use App\Http\Requests\UpdateCertificateRequest;
 
-class NewsController extends Controller
+class CertificateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreNewsRequest $request)
+    public function store(StoreCertificateRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(News $news)
+    public function show(Certificate $certificate)
     {
         //
     }
@@ -43,7 +43,7 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(News $news)
+    public function edit(Certificate $certificate)
     {
         //
     }
@@ -51,7 +51,7 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateNewsRequest $request, News $news)
+    public function update(UpdateCertificateRequest $request, Certificate $certificate)
     {
         //
     }
@@ -59,7 +59,7 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(News $news)
+    public function destroy(Certificate $certificate)
     {
         //
     }

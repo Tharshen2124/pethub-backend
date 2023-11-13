@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('appointments', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('appointment_id');
+            $table->foreignId('user_id');
+            $table->integer('pet_service_provider_ref');
+            $table->string('appointment_type');
+            $table->date('date');
+            $table->time('time');
+            $table->text('important_details');
+            $table->text('issue_description');
+            $table->string('appointment_status');
+            $table->timestamp('created_at')->default(now());
         });
     }
 

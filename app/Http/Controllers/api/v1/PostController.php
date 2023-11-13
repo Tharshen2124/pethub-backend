@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\V1;
 
-use App\Models\Resume;
-use App\Http\Requests\StoreResumeRequest;
-use App\Http\Requests\UpdateResumeRequest;
+use App\Models\Post;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 
-class ResumeController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ResumeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreResumeRequest $request)
+    public function store(StorePostRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ResumeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Resume $resume)
+    public function show(Post $post)
     {
         //
     }
@@ -43,7 +44,7 @@ class ResumeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Resume $resume)
+    public function edit(Post $post)
     {
         //
     }
@@ -51,7 +52,7 @@ class ResumeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateResumeRequest $request, Resume $resume)
+    public function update(UpdatePostRequest $request, Post $post)
     {
         //
     }
@@ -59,7 +60,7 @@ class ResumeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Resume $resume)
+    public function destroy(Post $post)
     {
         //
     }
