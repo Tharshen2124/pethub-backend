@@ -18,16 +18,16 @@ return new class extends Migration
             $table->string('password');
             $table->enum('permission_level', ['1', '2', '3']);
             $table->string('image');
-            $table->float('deposit_range');
-            $table->string('service_type');
             $table->text('description');
             $table->string('contact_number');
-            $table->time('opening_hour');
-            $table->time('closing_hour');
-            $table->string('bank_name');
-            $table->integer('beneficiary_acc_number');
-            $table->string('beneficiary_name');
-            $table->string('qr_code_image');
+            $table->float('deposit_range')->default(0);
+            $table->string('service_type')->nullable();
+            $table->time('opening_hour')->nullable();
+            $table->time('closing_hour')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->integer('beneficiary_acc_number')->nullable();
+            $table->string('beneficiary_name')->nullable();
+            $table->string('qr_code_image')->nullable();
             $table->timestamps();
         });
     }
