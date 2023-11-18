@@ -24,7 +24,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $guarded = ['created_at', 'updated_at'];
-
+    
+    protected $primaryKey = 'user_id';
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -78,6 +79,6 @@ class User extends Authenticatable
 
     public function certificate()
     {
-        return $this->hasOne(Certificate::class);
+        return $this->hasOne(Certificate::class, 'user_id');
     }
 }

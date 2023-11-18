@@ -25,7 +25,7 @@ return new class extends Migration
             $table->time('opening_hour')->nullable();
             $table->time('closing_hour')->nullable();
             $table->string('bank_name')->nullable();
-            $table->integer('beneficiary_acc_number')->nullable();
+            $table->string('beneficiary_acc_number')->nullable();
             $table->string('beneficiary_name')->nullable();
             $table->string('qr_code_image')->nullable();
             $table->timestamps();

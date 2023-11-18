@@ -20,13 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1'], function() {
-
     // UserController Routes
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/register', [UserController::class, 'register'])->middleware('guest');
     Route::post('/login', [UserController::class, 'login'])->middleware('guest');
     Route::post('/logout', [UserController::class, 'logout']);
-
-    
 }); 
 

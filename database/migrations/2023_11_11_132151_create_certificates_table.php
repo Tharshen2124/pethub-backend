@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('certificates', function (Blueprint $table) {
-            $table->id();
+            $table->foreignId('user_id')->primary();
             $table->string('certificate_upload');
             $table->string('certificate_service_type');
+            $table->foreign('user_id')->references('user_id')->on('users');
         });
     }
 
