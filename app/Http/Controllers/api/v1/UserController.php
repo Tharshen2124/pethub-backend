@@ -27,7 +27,6 @@ class UserController extends Controller
     //register new user
     public function register(Request $request)
     {
-        
         $validated = $request->validate([
             'full_name' => 'required',
             'email' => 'required',
@@ -64,7 +63,8 @@ class UserController extends Controller
                 'image' => 'hi',
                 'contact_number' => $validated['contact_number'],
                 'description' => $validated['description'],
-                'image' => $image
+                'image' => $image,
+                'user_status' => 'accepted'
             ]);
         } 
         elseif($permission_level === 3) // register for service provider
@@ -104,6 +104,7 @@ class UserController extends Controller
                 'beneficiary_acc_number' => $SP_validated['beneficiary_acc_number'],
                 'beneficiary_name' => $SP_validated['beneficiary_name'],
                 'qr_code_image' => $qr_code_image,
+                'user_status' => 'pending'
             ]);
 
             Certificate::create([
@@ -147,6 +148,7 @@ class UserController extends Controller
         }
     }
 
+    // shows the single user's data
     public function show(string $id)
     {
         $userInfo = User::with('certificate')->findorFail($id);

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('beneficiary_acc_number')->nullable();
             $table->string('beneficiary_name')->nullable();
             $table->string('qr_code_image')->nullable();
+            $table->string('user_status');
             $table->timestamps();
         });
     }

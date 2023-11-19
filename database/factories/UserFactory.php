@@ -33,7 +33,8 @@ class UserFactory extends Factory
             'beneficiary_acc_number' => fake()->numberBetween(10000000, 100000000),
             'beneficiary_name' => fake()->name(),
             'qr_code_image' => 'http://placekitten.com/g/200/300',
-        ];
+            'user_status' => fake()->randomElement(['accepted', 'rejected', 'pending'])
+        ]; 
     }
 
     /**
