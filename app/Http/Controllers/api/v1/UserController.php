@@ -69,8 +69,8 @@ class UserController extends Controller
         } 
         elseif($permission_level === 3) // register for service provider
         {
-
             $SP_validated = $request->validate([
+                'image' => 'required',
                 'deposit_range' => 'required',
                 'service_type' => 'required',    
                 'opening_hour' => 'required',
@@ -128,8 +128,6 @@ class UserController extends Controller
     {
         $request->validated();
 
-        /* try 
-        { */
         $auth = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
         if($auth) 
         {
@@ -149,15 +147,36 @@ class UserController extends Controller
         }
     }
 
-    // logout user
-    public function logout()
+    public function show(string $id)
     {
+        $userInfo = User::with('certificate')->findorFail($id);
 
+        return response()->json([
+            'user' => $userInfo
+        ]);
+    }
+
+    // logout user
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+
+        $request->user()->currentAccessToken()->delete();
+        
+        return response()->json([
+            'message' => 'User successfully logged out'
+        ], 200);
     }
 
     // delete user
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return response()->json([
+            'message' => "User successfully deleted!",
+        ]);
     }
 }

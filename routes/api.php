@@ -24,6 +24,10 @@ Route::group(['prefix' => 'v1'], function() {
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/register', [UserController::class, 'register'])->middleware('guest');
     Route::post('/login', [UserController::class, 'login'])->middleware('guest');
-    Route::post('/logout', [UserController::class, 'logout']);
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+    Route::group(['middleware' => ['auth:sanctum']], function() {
+        Route::post('/logout', [UserController::class, 'logout']);
+    }); 
 }); 
 
