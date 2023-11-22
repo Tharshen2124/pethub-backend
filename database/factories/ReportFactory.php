@@ -17,7 +17,13 @@ class ReportFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            //ref
+            // $table->id('report_id');
+            // $table->foreignId('user_id');
+            // $table->string('report_title');
+            // $table->text('report_description');
+            'report_title' => fake()->word(),
+            'report_description' => fake()->text(),
         ];
     }
 }
