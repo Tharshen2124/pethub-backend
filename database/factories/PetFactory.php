@@ -17,7 +17,21 @@ class PetFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            //ref
+            // $table->id('pet_id');
+            // $table->foreignId('user_id');
+            // $table->string('pet_name');
+            // $table->string('species');
+            // $table->string('breed');
+            // $table->text('description');
+            // $table->integer('age');
+            // $table->string('image');
+            'pet_name' => fake()->name(),
+            
+            'description'=> fake()->text(),
+            'age' => fake()->randomDigitNot(0),
+            'image' => fake()->imageUrl(640, 480, 'animals', true),
+
         ];
     }
 }
