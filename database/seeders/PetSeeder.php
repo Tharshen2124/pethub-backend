@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Pet;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PetSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class PetSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        
     }
 }

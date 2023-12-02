@@ -10,58 +10,73 @@ use App\Http\Requests\UpdateAppointmentRequest;
 class AppointmentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Store an appointment
+     * TODO: Update an appointment
+     * TODO: Show all appointments of a user
+     * TODO: Show all appointments made to a service provider
      */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    //Store a newly made appointment
     public function store(StoreAppointmentRequest $request)
     {
-        //
+        $value = $request->validated();
+
+        Appointment::create([
+            'user_id' => $value['user_id'],
+            'pet_id' => $value['pet_id'],
+            'pet_service_provider_ref' => $value['pet_service_provider_ref'],
+            'appointment_type' => $value['appointment_type'],
+            'date' => $value['date'],
+            'time' => $value['time'],
+            'important_details' => $value['important_details'],
+            'issue_description' => $value['issue_description'],
+            'appointment_status' => 'pending'
+        ]);
+        
+        return response()->json([
+            'message' => 'Appointment made succesfully',
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Appointment $appointment)
+    // Update the specified resource in storage.
+    public function update(UpdateAppointmentRequest $request, string $id)
     {
-        //
+        $appointment = Appointment::findOrFail($id);
+        $status = $request->status;
+
+        $appointment->update([
+            'status' => $status
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Appointment $appointment)
+    // Display the specified appointments to a user.
+    public function show(string $id)
     {
-        //
+        $user = auth('sanctum')->user();
+        
+        if($user->permission_level === "2") 
+        {
+            $appointments = Appointment::where('pet_service_provider_ref', $id)->get() ?? null;
+        }
+        
+        return response()->json([
+            'appointment' => $appointments
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAppointmentRequest $request, Appointment $appointment)
+    public function index()
     {
-        //
+        $user = auth('sanctum')->user();
+        
+        if($user->permission_level === "1") 
+        {
+            $appointments = $user->appointments()->get() ?? null;
+        }
+        
+        return response()->json([
+            'appointment' => $appointments
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Appointment $appointment)
-    {
-        //
-    }
+    
 }

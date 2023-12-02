@@ -34,7 +34,6 @@ class UserController extends Controller
             'permission_level' => 'required',
             'contact_number' => 'required',
             'description' => 'required',
-            'image' => 'image'
         ]);
 
         if(gettype($validated['permission_level'] === "string")) 
@@ -60,14 +59,13 @@ class UserController extends Controller
                 'email' => $validated['email'],
                 'password' => $password,
                 'permission_level' => $permission_level,
-                'image' => 'hi',
                 'contact_number' => $validated['contact_number'],
                 'description' => $validated['description'],
                 'image' => $image,
                 'user_status' => 'accepted'
             ]);
         } 
-        elseif($permission_level === 3) // register for service provider
+        elseif($permission_level === 2) // register for service provider
         {
             $SP_validated = $request->validate([
                 'image' => 'required',
@@ -120,7 +118,8 @@ class UserController extends Controller
 
         return response()->json([
             'message' => "Successfully registered",
-            'token' => $token
+            'token' => $token,
+            'user' => $user,
         ], 201);
     }
 

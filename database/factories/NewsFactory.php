@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,11 @@ class NewsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'news_title' => fake()->title(),
+            'news_description' => fake()->text(),
+            'image' => fake()->imageUrl(640, 480, 'animals', true), 
+            'news_status' => fake()->randomElement(['accepted', 'pending', 'rejected']),
         ];
     }
 }

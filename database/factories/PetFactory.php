@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,21 +18,13 @@ class PetFactory extends Factory
     public function definition(): array
     {
         return [
-            //ref
-            // $table->id('pet_id');
-            // $table->foreignId('user_id');
-            // $table->string('pet_name');
-            // $table->string('species');
-            // $table->string('breed');
-            // $table->text('description');
-            // $table->integer('age');
-            // $table->string('image');
             'pet_name' => fake()->name(),
-            
+            'user_id' => User::factory(),
+            'type' => fake()->randomElement(['dog', 'cat', 'goat']),
+            'breed' => fake()->randomElement(['doberman', 'siberian husky', 'white shortbread', 'none', 'black type']), 
             'description'=> fake()->text(),
-            'age' => fake()->randomDigitNot(0),
+            'age' => fake()->numberBetween(1, 10),
             'image' => fake()->imageUrl(640, 480, 'animals', true),
-
         ];
     }
 }

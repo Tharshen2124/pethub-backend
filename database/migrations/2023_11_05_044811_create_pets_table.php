@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('pet_id');
             $table->foreignId('user_id');
             $table->string('pet_name');
-            $table->string('species');
+            $table->string('type');
             $table->string('breed');
             $table->text('description');
             $table->integer('age');

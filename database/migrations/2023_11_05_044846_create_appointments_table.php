@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id('appointment_id');
+            $table->foreignId('pet_id');
             $table->foreignId('user_id');
             $table->integer('pet_service_provider_ref');
             $table->string('appointment_type');

@@ -10,6 +10,8 @@ class Report extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'report_id';
+
     public function user() 
     {
         return $this->belongsTo(User::class);

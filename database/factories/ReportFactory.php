@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,11 +18,7 @@ class ReportFactory extends Factory
     public function definition(): array
     {
         return [
-            //ref
-            // $table->id('report_id');
-            // $table->foreignId('user_id');
-            // $table->string('report_title');
-            // $table->text('report_description');
+            'user_id' => User::factory(),
             'report_title' => fake()->word(),
             'report_description' => fake()->text(),
         ];

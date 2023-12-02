@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,14 +19,10 @@ class PostFactory extends Factory
     {
         return [
             //ref
-            // $table->id('post_id');
-            // $table->foreignId('user_id');
-            // $table->string('post_title');
-            // $table->text('post_description');
-            // $table->timestamps();
+            'user_id' => User::factory(),
             'post_title' => fake()->word(),
             'post_description' => fake()->text(),
-
+            
         ];
     }
 }
