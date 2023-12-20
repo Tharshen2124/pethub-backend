@@ -32,10 +32,12 @@ class AppointmentController extends Controller
             'issue_description' => $value['issue_description'],
             'appointment_status' => 'pending'
         ]);
+
         
         return response()->json([
             'message' => 'Appointment made succesfully',
         ], 201);
+
     }
 
     // Update the specified resource in storage.

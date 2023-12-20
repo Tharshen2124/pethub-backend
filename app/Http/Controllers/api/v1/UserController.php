@@ -27,6 +27,8 @@ class UserController extends Controller
     //register new user
     public function register(Request $request)
     {
+        Log::debug("hi");
+
         $validated = $request->validate([
             'full_name' => 'required',
             'email' => 'required',
@@ -51,6 +53,8 @@ class UserController extends Controller
         {
             $image = $request->file('image')->store('public');
         }
+
+        
         
         if($permission_level === 1) 
         {
