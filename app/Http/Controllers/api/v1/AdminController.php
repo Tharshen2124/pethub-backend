@@ -1,17 +1,33 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // determine if service provider application is approved or rejected
+    public function service_provider_application(Request $request, string $id)
     {
-        //
+
+        $user = auth('sanctum')->user();
+
+        $validated = $request->validate([
+            'user_status' => ['required', Rule::in(['success', 'rejected'])]
+        ]);
+
+        $user = User::findorFail($id);
+
+        $user->update([
+            'user_status' => $validated['user_status']
+        ]);
+
+        return response()->json([
+            'message' => "Successfully updated status!"
+        ]);
     }
 
     /**

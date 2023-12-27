@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\api\V1\AppointmentController;
-use App\Http\Controllers\api\V1\NewsController;
-use App\Http\Controllers\api\V1\PetController;
-use App\Http\Controllers\api\V1\ReportController;
-use App\Http\Controllers\api\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\V1\AdminController;
+use App\Http\Controllers\api\V1\PetController;
+use App\Http\Controllers\api\V1\NewsController;
+use App\Http\Controllers\api\V1\PostController;
+use App\Http\Controllers\api\v1\UserController;
+use App\Http\Controllers\api\V1\ReportController;
+use App\Http\Controllers\api\V1\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +47,12 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('/appointments', [AppointmentController::class, 'store']);
         Route::put('/appointments/{aptid}', [AppointmentController::class, 'update']);
         Route::get('/appointments/{spid}', [AppointmentController::class, 'show']);
+
+        //Admin routes
+        Route::group(['prefix' => 'admin'], function() {
+            Route::put('/service_provider_application/{userid}', [AdminController::class, 'service_provider_application']);
+
+        });
     }); 
 }); 
 

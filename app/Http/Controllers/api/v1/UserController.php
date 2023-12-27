@@ -142,7 +142,10 @@ class UserController extends Controller
                 'message' => 'Success!',
                 'token' => $token,
             ], 200);
-        } else {
+        } /* else if($auth ) {
+            
+        } */
+        else {
             $return =  [
                 'message' => 'Error',
                 'user' => null,
