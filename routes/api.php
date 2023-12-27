@@ -49,5 +49,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('/appointments/{aptid}', [AppointmentController::class, 'update']);
         Route::get('/appointments/{spid}', [AppointmentController::class, 'show']);
     }); 
-}); 
 
+    Route::group(['prefix' => 'admin'], function() {
+        Route::put('/service_provider_application', [AdminController::class, 'service_provider_application']);
+    });
+}); 
