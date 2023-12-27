@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\api\V1\AdminController;
 use App\Http\Controllers\api\V1\AppointmentController;
 use App\Http\Controllers\api\V1\NewsController;
 use App\Http\Controllers\api\V1\PetController;
@@ -8,7 +8,7 @@ use App\Http\Controllers\api\v1\UserController;
 use App\Http\Controllers\api\V1\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\api\V1\AdminController;
+
 
 
 /*
@@ -48,9 +48,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/appointments', [AppointmentController::class, 'store']);
         Route::put('/appointments/{aptid}', [AppointmentController::class, 'update']);
         Route::get('/appointments/{spid}', [AppointmentController::class, 'show']);
+
+        Route::group(['prefix' => 'admin'], function() {
+            Route::put('/service_provider_application/{spid}', [AdminController::class, 'service_provider_application']);
+        });
     }); 
 
-    Route::group(['prefix' => 'admin'], function() {
-        Route::put('/service_provider_application', [AdminController::class, 'service_provider_application']);
-    });
+    
 }); 
