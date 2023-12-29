@@ -15,6 +15,11 @@ class ReportController extends Controller
     public function index()
     {
         //
+        $report = auth('sanctum')->user()->report()->get();
+        
+        return response()->json([
+            'report' => $report
+        ]);
     }
 
     /**
@@ -31,6 +36,25 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request)
     {
         //
+        $request->validated();
+
+        if(gettype($request['permission_level'] === "string")) 
+        {
+            $permission_level = intval($request['permission_level']);
+        } else {
+            $permission_level = $request['permission_level'];
+        }
+
+        if($permission_level === 1 || $permission_level === 2) {
+            Report::create([
+                'report_title' => $request->report_title,
+                'report_description' => $request->report_description,
+            ]);
+        }
+
+        return response()->json([
+            'message' => "Success!",
+        ]);
     }
 
     /**

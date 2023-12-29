@@ -14,7 +14,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $post = auth('sanctum')->user()->post()->get();
+        
+        return response()->json([
+            'post' => $post
+        ]);
     }
 
     /**
@@ -30,7 +34,16 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        $request->validated();
+
+        Post::create([
+            'post_title' => $request->post_title,
+            'post_description' => $request->post_description,
+        ]);
+
+        return response()->json([
+            'message' => "Success!",
+        ]);
     }
 
     /**
@@ -38,7 +51,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        $Post = Post::findorFail($post);
+
+        return response()->json([
+         'post' => $Post
+        ]);
     }
 
     /**
@@ -54,7 +71,16 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $request->validated();
+
+        $post->update([
+            'post_title' => $request->post_title,
+            'post_description' => $request->post_description,
+        ]);
+
+        return response()->json([
+            'message' => "Success!",
+        ]);
     }
 
     /**
@@ -62,6 +88,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return response()->json([
+            'message' => 'Successfully deleted pet',
+        ]);
     }
 }

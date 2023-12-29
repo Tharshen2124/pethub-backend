@@ -30,7 +30,15 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        $request->validated();
+
+        Comment::create([
+            'comment_description' => $request->comment_desciption,
+        ]);
+
+        return response()->json([
+            'message' => "Success!",
+        ]);
     }
 
     /**
@@ -54,7 +62,15 @@ class CommentController extends Controller
      */
     public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        //
+        $request->validated();
+
+        $comment->update([
+            'comment_description' => $request->comment_desciption,
+        ]);
+
+        return response()->json([
+            'message' => "Success!",
+        ]);
     }
 
     /**
@@ -62,6 +78,10 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+
+        return response()->json([
+            'message' => 'Successfully deleted pet',
+        ]);
     }
 }
