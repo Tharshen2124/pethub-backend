@@ -3,89 +3,49 @@
 namespace App\Http\Controllers\api\V1;
 
 use App\Models\Report;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreReportRequest;
-use App\Http\Requests\UpdateReportRequest;
 
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // display all reports
     public function index()
     {
-        //
-        $report = auth('sanctum')->user()->report()->get();
+        $report = Report::with('user')->get();
         
         return response()->json([
             'report' => $report
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // store a new report made by a user or service provider 
+    public function store(Request $request)
     {
-        //
-    }
+        $user_id = auth('sanctum')->user()->user_id;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReportRequest $request)
-    {
-        //
-        $request->validated();
+        $validated = $request->validate([
+            'report_title' => 'required',
+            'report_description' => 'required',
+        ]);
 
-        if(gettype($request['permission_level'] === "string")) 
-        {
-            $permission_level = intval($request['permission_level']);
-        } else {
-            $permission_level = $request['permission_level'];
-        }
-
-        if($permission_level === 1 || $permission_level === 2) {
-            Report::create([
-                'report_title' => $request->report_title,
-                'report_description' => $request->report_description,
-            ]);
-        }
+        Report::create([
+            'user_id' => $user_id,
+            'report_title' => $validated['report_title'],
+            'report_description' => $validated['report_description'],
+        ]);
 
         return response()->json([
-            'message' => "Success!",
+            'message' => "Report successfully sent!",
+        ], 201);
+    }
+
+    // Display the specified resource.
+    public function show(string $id)
+    {
+        $report = Report::findorFail($id)->with('user')->get();
+        
+        return response()->json([
+            'report' => $report
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Report $report)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Report $report)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReportRequest $request, Report $report)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Report $report)
-    {
-        //
     }
 }

@@ -12,8 +12,12 @@ class Report extends Model
 
     protected $primaryKey = 'report_id';
 
+    protected $guarded = [];
+
+    public $timestamps = false;
+
     public function user() 
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

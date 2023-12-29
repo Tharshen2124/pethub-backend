@@ -38,7 +38,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('/pets', PetController::class);
     Route::apiResource('/posts', PostController::class);
     Route::apiResource('/news', NewsController::class);
-    Route::apiResource('/reports', ReportController::class);
 
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/logout', [UserController::class, 'logout']);
@@ -49,9 +48,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('/appointments/{aptid}', [AppointmentController::class, 'update']);
         Route::get('/appointments/{spid}', [AppointmentController::class, 'show']);
 
+
         Route::group(['prefix' => 'admin'], function() {
             Route::put('/service_provider_application/{spid}', [AdminController::class, 'service_provider_application']);
         });
+
+        // Report routes
+        Route::apiResource('/report', ReportController::class)->only(['index', 'store', 'show']);
     }); 
 
     

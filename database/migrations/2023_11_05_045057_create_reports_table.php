@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('report_title');
             $table->text('report_description');
+            $table->timestamp('created_at')->default(now());
         });
     }
 
