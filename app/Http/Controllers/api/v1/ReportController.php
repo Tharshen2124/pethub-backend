@@ -42,7 +42,7 @@ class ReportController extends Controller
     // Display the specified resource.
     public function show(string $id)
     {
-        $report = Report::findorFail($id)->with('user')->get();
+        $report = Report::with('user')->findorFail($id);
         
         return response()->json([
             'report' => $report
