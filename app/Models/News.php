@@ -11,9 +11,11 @@ class News extends Model
 
     protected $primaryKey = 'news_id';
 
+    protected $guarded = [];
+
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function categories()

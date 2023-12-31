@@ -29,16 +29,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v1'], function () {
 
     // User routes
-    Route::get('/users', [UserController::class, 'index']);
     Route::post('/register', [UserController::class, 'register'])->middleware('guest');
     Route::post('/login', [UserController::class, 'login'])->middleware('guest');
-    Route::get('/users/{id}', [UserController::class, 'show']);
-    Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
     Route::apiResource('/pets', PetController::class);
     Route::apiResource('/posts', PostController::class);
-    Route::apiResource('/news', NewsController::class);
-
+    
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/logout', [UserController::class, 'logout']);
 
@@ -48,13 +44,31 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('/appointments/{aptid}', [AppointmentController::class, 'update']);
         Route::get('/appointments/{spid}', [AppointmentController::class, 'show']);
 
+        // News routes
+        Route::apiResource('/news', NewsController::class)->only([
+            'index', 'show', 'store'
+        ]);
 
-        Route::group(['prefix' => 'admin'], function() {
-            Route::put('/service_provider_application/{spid}', [AdminController::class, 'service_provider_application']);
+        // Admin routes
+        Route::group(['prefix' => 'admin'], function() 
+        {
+            Route::get('/sp_application', [AdminController::class, 'show_service_provider']);
+            Route::get('/sp_application/{spid}', [AdminController::class, 'show_specifc_service_provider']);
+            Route::put('/sp_application/{spid}', [AdminController::class, 'service_provider_application']);
+            
+            Route::get('/news_application', [AdminController::class, 'show_news']);
+            Route::get('/news_application/{nid}', [AdminController::class, 'show_specific_news']);
+            Route::put('/news_application/{nid}', [AdminController::class, 'news_application']);
+            
+            Route::get('/report', [AdminController::class, 'show_reports']);
+            Route::get('/report/{rid}', [AdminController::class, 'show_specific_report']);
+            
+            Route::get('/user', [AdminController::class, 'show_all_users']);
+            Route::delete('/user/{uid}', [AdminController::class, 'delete_user']);
         });
 
         // Report routes
-        Route::apiResource('/report', ReportController::class)->only(['index', 'store', 'show']);
+        Route::post('/report', [ReportController::class, 'store']);
     }); 
 
     

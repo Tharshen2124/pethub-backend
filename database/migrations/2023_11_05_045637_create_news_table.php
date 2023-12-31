@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('news_title');
             $table->text('news_description');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('news_status');
             $table->timestamps();
         });

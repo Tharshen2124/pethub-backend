@@ -9,79 +9,33 @@ use App\Http\Requests\UpdateCommentRequest;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Store a newly created resource in storage.
     public function store(StoreCommentRequest $request)
     {
-        $request->validated();
+        $validated = $request->validate(['comment_description' => 'required']);
 
-        Comment::create([
-            'comment_description' => $request->comment_desciption,
-        ]);
+        Comment::create(['comment_description' => $validated['comment_desciption']]);
 
-        return response()->json([
-            'message' => "Success!",
-        ]);
+        return response()->json(['message' => "Comment created successfully!"], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
+    // Update the specified resource in storage.
     public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        $request->validated();
+        $validated = $request->validate(['comment_description' => 'required']);
 
-        $comment->update([
-            'comment_description' => $request->comment_desciption,
-        ]);
+        $comment->update(['comment_description' => $validated['comment_description']]);
 
-        return response()->json([
-            'message' => "Success!",
-        ]);
+        return response()->json(['message' => "Comment updated successfully!"]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Remove the specified resource from storage.
     public function destroy(Comment $comment)
     {
         $comment->delete();
 
         return response()->json([
-            'message' => 'Successfully deleted pet',
+            'message' => 'Comment deleted successfully',
         ]);
     }
 }

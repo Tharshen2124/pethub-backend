@@ -14,16 +14,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // list all users
-    public function index()
-    {
-        $user = User::with('certificate')->get();
-
-        return response()->json([
-            "users" => $user
-        ]);
-    }
-
     //register new user
     public function register(Request $request)
     {
@@ -156,16 +146,6 @@ class UserController extends Controller
         }
     }
 
-    // shows the single user's data
-    public function show(string $id)
-    {
-        $userInfo = User::with('certificate')->findorFail($id);
-
-        return response()->json([
-            'user' => $userInfo
-        ]);
-    }
-
     // logout user
     public function logout(Request $request)
     {
@@ -176,17 +156,5 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User successfully logged out'
         ], 200);
-    }
-
-    // delete user
-    public function destroy(string $id)
-    {
-        $user = User::findOrFail($id);
-
-        $user->delete();
-
-        return response()->json([
-            'message' => "User successfully deleted!",
-        ]);
     }
 }

@@ -8,16 +8,6 @@ use App\Http\Controllers\Controller;
 
 class ReportController extends Controller
 {
-    // display all reports
-    public function index()
-    {
-        $report = Report::with('user')->get();
-        
-        return response()->json([
-            'report' => $report
-        ]);
-    }
-
     // store a new report made by a user or service provider 
     public function store(Request $request)
     {
@@ -37,15 +27,5 @@ class ReportController extends Controller
         return response()->json([
             'message' => "Report successfully sent!",
         ], 201);
-    }
-
-    // Display the specified resource.
-    public function show(string $id)
-    {
-        $report = Report::with('user')->findorFail($id);
-        
-        return response()->json([
-            'report' => $report
-        ]);
     }
 }

@@ -3,91 +3,65 @@
 namespace App\Http\Controllers\api\V1;
 
 use App\Models\News;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreNewsRequest;
-use App\Http\Requests\UpdateNewsRequest;
 
 class NewsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // display all news with users who made them
     public function index()
     {
-        $news = auth('sanctum')->user()->news()->get();
+        $news = News::with('user')->where('news_status', 'approved')->get();
 
-        return response()->json([
-            'news' => $news
-        ]);
+        return response()->json(['news' => $news]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreNewsRequest $request)
+    // stores a news and sets its status to pending
+    public function store(Request $request)
     {
-        $request->validated();
-
-        News::create([
-            'news_title' => $request->news_title,
-            'news_description' => $request->news_description,
-            'image' => $request->image, 
-            'news_status' => 'pending',
-        ]);
-
-        return response()->json([
-            'message' => "Success!",
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(News $news)
-    {
-        $News = News::findorFail($news);
-
+        $validated = $request->validate([
+            'news_title' => 'required',
+            'news_description' => 'required',
+            'user_id' => 'required'
+        ]); 
         
-
-        return response()->json([
-         'news' => $News
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateNewsRequest $request, News $news)
-    {
-        //
-        $request->validated();
-
-        if(gettype($request['permission_level'] === "string")) 
+        if($request->hasFile('image'))
         {
-            $permission_level = intval($request['permission_level']);
-        } else {
-            $permission_level = $request['permission_level'];
+            $image = $request->file('image')->store('public');
+            [$public, $img] = explode("/",$image);
+            $linkToImage = asset('storage/'.$img);
         }
-
-        if($permission_level === 3) {
-            $news->update([
-                'news_title' => $request->news_title,
-                'news_description' => $request->news_description,
-                'image' => $request->image, 
-                'news_status' => $request->news_status,
-            ]);
-        }
+        
+        News::create([
+            'user_id' => $validated['user_id'],
+            'news_title' => $validated['news_title'],
+            'news_description' => $validated['news_description'],
+            'image' => $linkToImage ?? null, 
+            'news_status' => 'pending'
+        ]);
 
         return response()->json([
-            'message' => "Success!",
-        ]);
+            'message' => "Successfully sent to the administrator! Wait for a few days for admin to approve of the news.",
+        ], 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(News $news)
+    // shows a specific news with its user who made it
+    public function show(string $id)
     {
-        //
+        $news = News::find($id);
+        
+        if(!$news) 
+        {
+            return response()->json(['error' => 'news not found'], 404);
+        } 
+        else 
+        {
+            if($news->news_status === 'pending') 
+            {
+                return response()->json(['error' => 'unable to access this news'], 404);
+            } 
+        }
+
+        return response()->json(['news' => $news]);
     }
 }
