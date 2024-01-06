@@ -11,14 +11,18 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'post_id';
+
+    protected $guarded = [];
+
     public function user() 
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'post_id');
     }
 
     public function categories()

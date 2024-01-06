@@ -3,95 +3,104 @@
 namespace App\Http\Controllers\api\V1;
 
 use App\Models\Post;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // display all posts with the earliest comment
     public function index()
     {
-        $post = auth('sanctum')->user()->post()->get();
+        $posts = Post::with(['comments' => function ($query) {
+            $query->orderBy('created_at', 'asc');
+        }])->get()->each(function ($post) {
+            $post->setRelation('comments', collect([$post->comments->first()]));
+        });
+              
         
         return response()->json([
-            'post' => $post
+            'post' => $posts
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // Store a new post
+    public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePostRequest $request)
-    {
-        $request->validated();
+        $validated = $request->validate([
+            'user_id' => 'required',
+            'post_title' => 'required',
+            'post_description' => 'required'
+        ]);
 
         Post::create([
-            'post_title' => $request->post_title,
-            'post_description' => $request->post_description,
+            'user_id' => $validated['user_id'],
+            'post_title' => $validated['post_title'],
+            'post_description' => $validated['post_description'],
         ]);
 
         return response()->json([
-            'message' => "Success!",
+            'message' => "Successfully created post!",
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
+    // Show a post with all its comments
+    public function show(string $id)
     {
-        $Post = Post::findorFail($post);
+        $post = Post::with('comments')->find($id) ?? null;
 
-        return response()->json([
-         'post' => $Post
-        ]);
+        if($post) {
+            return response()->json([
+                'post' => $post
+            ], 201);
+        } else {
+            return response()->json([
+                'Error' => "Post not found"
+            ], 404);
+        }
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
+    // Update a post
+    public function update(Request $request, string $id)
     {
-        //
+        $post = Post::with('comments')->find($id) ?? null;
+        
+        if($post) {
+            $request->validate([
+                'post_title' => 'required',
+                'user_id' => 'required'
+            ]);
+
+            $post->update([
+                'post_title' => $request->post_title,
+                'post_description' => $request->post_description,
+            ]);
+
+            return response()->json([
+                'message' => "Successfully updated post!",
+            ]);
+        } else {
+            return response()->json([
+                'Error' => "Post not found"
+            ], 404);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePostRequest $request, Post $post)
+    // Delete a post and its associated comments
+    public function destroy(string $id)
     {
-        $request->validated();
+        $post = Post::with('comments')->find($id) ?? null;
 
-        $post->update([
-            'post_title' => $request->post_title,
-            'post_description' => $request->post_description,
-        ]);
+        if($post) {
+            $post->delete();
 
-        return response()->json([
-            'message' => "Success!",
-        ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Post $post)
-    {
-        $post->delete();
-
-        return response()->json([
-            'message' => 'Successfully deleted pet',
-        ]);
+            return response()->json([
+                'message' => "Succesfully deleted post!"
+            ]);
+        } else {
+            return response()->json([
+                'Error' => "Post not found"
+            ], 404);
+        }
     }
 }

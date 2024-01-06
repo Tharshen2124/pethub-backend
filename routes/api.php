@@ -1,13 +1,14 @@
 <?php
-use App\Http\Controllers\api\V1\AdminController;
-use App\Http\Controllers\api\V1\AppointmentController;
-use App\Http\Controllers\api\V1\NewsController;
-use App\Http\Controllers\api\V1\PetController;
-use App\Http\Controllers\api\V1\ReportController;
-use App\Http\Controllers\api\v1\UserController;
-use App\Http\Controllers\api\V1\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\V1\PetController;
+use App\Http\Controllers\api\V1\NewsController;
+use App\Http\Controllers\api\V1\PostController;
+use App\Http\Controllers\api\v1\UserController;
+use App\Http\Controllers\api\V1\AdminController;
+use App\Http\Controllers\api\V1\ReportController;
+use App\Http\Controllers\api\V1\CommentController;
+use App\Http\Controllers\api\V1\AppointmentController;
 
 
 
@@ -33,7 +34,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('/login', [UserController::class, 'login'])->middleware('guest');
 
     Route::apiResource('/pets', PetController::class);
-    Route::apiResource('/posts', PostController::class);
+    
     
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/logout', [UserController::class, 'logout']);
@@ -48,6 +49,12 @@ Route::group(['prefix' => 'v1'], function () {
         Route::apiResource('/news', NewsController::class)->only([
             'index', 'show', 'store'
         ]);
+
+        Route::apiResource('/posts', PostController::class);
+        Route::apiResource('/comments', CommentController::class)->only([
+            'store', 'update', 'destroy'
+        ]);
+
 
         // Admin routes
         Route::group(['prefix' => 'admin'], function() 
